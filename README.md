@@ -41,10 +41,6 @@ The project uses a `web.config` file to store all sensitive configuration keys:
 - `GoogleClientSecret`
 - `adminUserName`, `adminPassword`
 - `MoodCastDb` connection string (PostgreSQL)
-
-> ⚠️ These keys are **not included** in this repository.  
-> Please create your own `web.config` file based on your environment and **never commit sensitive data**.
-
 ---
 
 ## 🖼️ Screenshot
