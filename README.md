@@ -62,13 +62,6 @@ The project uses a `web.config` file to store all sensitive configuration keys:
 
 ---
 
-## 🛡️ Security Notice
-
-- This is a public repository. Do **not** commit private API keys or `web.config` files.
-- Use `.gitignore` to protect sensitive configuration and compiled files.
-
----
-
 ## 🧠 Credits
 
 - Movie metadata via [TMDB](https://www.themoviedb.org/)
