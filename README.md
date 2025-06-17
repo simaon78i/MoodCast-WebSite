@@ -57,7 +57,7 @@ The project uses a `web.config` file to store all sensitive configuration keys:
 
 > The following video shows a brief walkthrough of the MoodCast experience:
 
-▶️ [Watch the demo on YouTube](https://youtu.be/vUOHeH-yHKQ)
+▶️ [Watch the demo on YouTube](https://youtu.be/M9_5bSHv584)
 (or view locally at `assets/presentationG.mp4`)
 
 ---
