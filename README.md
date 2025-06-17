@@ -49,7 +49,7 @@ The project uses a `web.config` file to store all sensitive configuration keys:
 
 ## 🖼️ Screenshot
 
-![MoodCast Screenshot](Assets/example.png)
+![MoodCast Screenshot](assets/example.png)
 
 ---
 
