@@ -1,0 +1,129 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../assets/bgp.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #000;
+    overflow-x: hidden;
+}
+
+body {
+    padding-top: 80px;
+    background-color: #f0f2f5;
+}
+
+nav {
+    background: #1e293b;
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: white;
+}
+
+    nav a {
+        color: white;
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-decoration: none;
+    }
+
+        nav a:hover {
+            color: #3b82f6;
+        }
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #1e293b;
+    text-align: center;
+}
+
+.admin-box {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    overflow-x: auto;
+}
+
+.gridview-style {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .gridview-style th, .gridview-style td {
+        padding: 12px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+    .gridview-style th {
+        background-color: #2563eb;
+        color: white;
+    }
+
+    .gridview-style tr:nth-child(even) {
+        background-color: #f9fafb;
+    }
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1e293b;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+.action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin: 0 2px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 14px;
+    transition: transform .15s,filter .25s;
+}
+
+    .action.edit {
+        background: #3b82f6;
+    }
+
+    .action.delete {
+        background: #ef4444;
+    }
+
+    .action:hover {
+        transform: translateY(-2px);
+        filter: brightness(.9);
+    }
+.gridview-style td:nth-child(3) {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+

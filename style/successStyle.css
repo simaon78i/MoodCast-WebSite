@@ -1,0 +1,40 @@
+﻿/* רקע מלא */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../assets/bg.png') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* קופסה לבנה-שקופה עם צל */
+.pay-box {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 40px 60px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+}
+
+/* כפתור/קישור חזרה */
+.btn-home {
+    background: #3b82f6;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 28px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: transform .15s, filter .25s;
+    display: inline-block;
+    margin-top: 25px;
+}
+
+    .btn-home:hover {
+        transform: translateY(-2px);
+        filter: brightness(.9);
+    }

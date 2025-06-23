@@ -1,0 +1,39 @@
+﻿/* --- Stripe Checkout Page Styling --- */
+
+/* רקע מלא – אותה תמונה כמו באתר שלך */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../assets/bg.png') no-repeat center center fixed;
+    background-size: cover;
+    display: flex; /* מרכז את התוכן אופקית ואנכית */
+    justify-content: center;
+    align-items: center;
+}
+
+/* תיבת התשלום החלבית עם צל ועדינות */
+.pay-box {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 40px 60px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+/* כפתור "Pay with Stripe" מעוצב */
+.btn-stripe {
+    background: #3b82f6; /* כחול בסגנון action.edit */
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 32px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.15s, filter 0.25s;
+}
+
+    .btn-stripe:hover {
+        transform: translateY(-2px);
+        filter: brightness(0.9);
+    }
