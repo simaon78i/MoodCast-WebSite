@@ -1,23 +1,23 @@
 # 🎬 MoodCast — AI-Powered Movie Recommendations Based on Your Mood
 
 **MoodCast** is a smart movie-recommendation website that suggests films based on your current mood.  
-Powered by AI, integrated with TMDB, Google OAuth, **Stripe Checkout**, it delivers a fully personalized cinematic (and payment) experience.
+Powered by AI, integrated with TMDB, Google OAuth, and **Stripe Checkout**, it delivers a personalized cinematic — and payment — experience.
 
 ---
 
 ## 🌟 Features
 
-- 🎭 **Mood-based movie recommendations** — just tell us how you feel
-- 🤖 **AI Integration (OpenAI GPT)** — interprets your mood text and suggests matching movies
-- 🎬 **TMDB Integration** — fetches posters, ratings, and trailers in real time
-- 👤 **User system** — sign up with a custom form or sign in with Google
-- 💳 **Stripe Checkout payments (test mode)** — seamless credit-card payments for premium features
-- 🛠️ **Admin Panel** — view all registered users
-- 💡 **Built with:**  
+- 🎭 **Mood-based movie suggestions** — just tell us how you feel  
+- 🤖 **OpenAI GPT integration** — interprets mood text and finds matching movies  
+- 🎬 **TMDB API** — real-time posters, ratings, trailers  
+- 👤 **User accounts** — register with a form or sign in via Google  
+- 💳 **Stripe Checkout (test mode)** — seamless credit-card payments for premium features  
+- 🛠️ **Admin panel** — view / manage all registered users  
+- 💡 **Built with**  
   - ASP.NET Web Forms (Framework)  
   - C#  
   - HTML5 & CSS3  
-  - PostgreSQL (via Npgsql)
+  - PostgreSQL (Npgsql)
 
 ---
 
@@ -25,29 +25,38 @@ Powered by AI, integrated with TMDB, Google OAuth, **Stripe Checkout**, it deliv
 
 ### 🔧 Prerequisites
 
-- Visual Studio with ASP.NET Framework support  
-- PostgreSQL installed and running  
-- API keys / credentials for:  
-  - [OpenAI](https://platform.openai.com/)  
-  - [TMDB](https://www.themoviedb.org/)  
-  - [Google OAuth](https://console.cloud.google.com/)  
-  - **Stripe (test keys)** — create a free account at [stripe.com](https://stripe.com) and grab `sk_test_*` / `pk_test_*`
+| Tool                           | Purpose                    |
+|--------------------------------|----------------------------|
+| Visual Studio (.NET Framework) | Build & run the project    |
+| PostgreSQL                     | Store users & logs         |
+| API keys                       | OpenAI · TMDB · Google OAuth · **Stripe test keys** (`sk_test_*`, `pk_test_*`) |
 
-### ⚙️ Configuration
+Create a free Stripe account at <https://stripe.com> → **Developers › API keys**.
 
-All sensitive keys are stored in `web.config` (never commit real keys):
+---
 
-```xml
-<appSettings>
-  <add key="OpenAIKey" value="..." />
-  <add key="TMDBKey" value="..." />
-  <add key="GoogleClientId" value="..." />
-  <add key="GoogleClientSecret" value="..." />
-  <add key="StripeSecretKey" value="sk_test_..." /> <!-- Stripe -->
-  <add key="adminUserName" value="admin" />
-  <add key="adminPassword" value="••••••" />
-</appSettings>
+## 🖼️ Screenshot
 
-<connectionStrings>
-  <add name="MoodCastDb" connectionString="Host=...;Username=...;Password=...;Database=..." />
-</connectionStrings>
+![MoodCast Screenshot](assets/example.png)
+
+---
+
+## 🎥 Demo Video
+
+▶️ **Watch the demo on YouTube**  
+<https://youtu.be/M9_5bSHv584>
+
+---
+
+## 🧠 Credits
+
+- Movie metadata — [TMDB](https://www.themoviedb.org/)  
+- Mood analysis — [OpenAI](https://platform.openai.com/)  
+- OAuth — [Google Cloud](https://console.cloud.google.com/)  
+- Payments — [Stripe](https://stripe.com/)
+
+---
+
+## 📜 License
+
+Released under the **MIT License**.
