@@ -31,8 +31,6 @@ Powered by AI, integrated with TMDB, Google OAuth, and **Stripe Checkout**, it d
 | PostgreSQL                     | Store users & logs         |
 | API keys                       | OpenAI · TMDB · Google OAuth · **Stripe test keys** (`sk_test_*`, `pk_test_*`) |
 
-Create a free Stripe account at <https://stripe.com> → **Developers › API keys**.
-
 ---
 
 ## 🖼️ Screenshot
