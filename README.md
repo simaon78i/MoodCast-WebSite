@@ -42,7 +42,7 @@ Powered by AI, integrated with TMDB, Google OAuth, and **Stripe Checkout**, it d
 ## 🎥 Demo Video
 
 ▶️ **Watch the demo on YouTube**  
-<[https://youtu.be/M9_5bSHv584](https://youtu.be/cRubk3kmMq4)>
+[https://youtu.be/M9_5bSHv584](https://youtu.be/cRubk3kmMq4)
 
 ---
 
