@@ -26,7 +26,7 @@ Powered by AI and fully deployed to a live production environment, it integrates
 
 ### Infrastructure & Cloud Services
 - **Web Hosting:** [Somee.com](http://somee.com/) (Windows Server / IIS)
-- **Database Cloud:** Neon Tech (PostgreSQL)
+- **Database Cloud:** [Neon Tech](https://neon.com/) (PostgreSQL)
 - **Production Config:** Advanced `Web.config` management with Assembly Binding Redirects.
 
 ---
