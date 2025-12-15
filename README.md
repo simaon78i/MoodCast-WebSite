@@ -1,23 +1,35 @@
-# 🎬 MoodCast — AI-Powered Movie Recommendations Based on Your Mood
+# 🎬 MoodCast — AI-Powered Movie Recommendations
 
-**MoodCast** is a smart movie-recommendation website that suggests films based on your current mood.  
-Powered by AI, integrated with TMDB, Google OAuth, and **Stripe Checkout**, it delivers a personalized cinematic — and payment — experience.
+**MoodCast** is a smart movie-recommendation website that suggests films based on your current mood.
+Powered by AI and fully deployed to a live production environment, it integrates TMDB, Google OAuth, and **Stripe Checkout** to deliver a seamless cinematic experience.
 
 ---
 
-## 🌟 Features
+## 🌟 Features (Production Ready)
 
-- 🎭 **Mood-based movie suggestions** — just tell us how you feel  
-- 🤖 **OpenAI GPT integration** — interprets mood text and finds matching movies  
-- 🎬 **TMDB API** — real-time posters, ratings, trailers  
-- 👤 **User accounts** — register with a form or sign in via Google  
-- 💳 **Stripe Checkout (test mode)** — seamless credit-card payments for premium features  
-- 🛠️ **Admin panel** — view / manage all registered users  
-- 💡 **Built with**  
-  - ASP.NET Web Forms (Framework)  
-  - C#  
-  - HTML5 & CSS3  
-  - PostgreSQL (Npgsql)
+- 🎭 **Mood-based movie suggestions** — describe how you feel, and AI finds the match.
+- 🤖 **OpenAI GPT integration** — live connection to OpenAI API for real-time analysis.
+- 🎬 **TMDB API** — fetches real-time metadata, posters, and ratings.
+- 👤 **Google OAuth 2.0 (Live)** — fully configured authentication working on a public domain.
+- 💳 **Stripe Checkout (Live Integration)** — handles secure payments and dynamic redirects between the payment gateway and the live server.
+- 🛠️ **Admin panel** — manage registered users and view logs.
+- ☁️ **Cloud Hosted** — The application is deployed and running on a remote IIS server.
+
+---
+
+## 🛠️ Tech Stack & Deployment
+
+### Backend & Frontend
+- **Framework:** ASP.NET Web Forms (.NET Framework)
+- **Language:** C#
+- **Database:** PostgreSQL (Npgsql)
+- **Frontend:** HTML5, CSS3, JavaScript
+
+### Deployment & Infrastructure
+- **Hosting:** Somee.com (Windows Server / IIS)
+- **Configuration:** Advanced `Web.config` management for production environments.
+- **Dependency Management:** Manual assembly binding and DLL management for cloud compatibility.
+- **Environment Handling:** Dynamic URL routing supporting both Localhost and Production.
 
 ---
 
@@ -25,11 +37,11 @@ Powered by AI, integrated with TMDB, Google OAuth, and **Stripe Checkout**, it d
 
 ### 🔧 Prerequisites
 
-| Tool                           | Purpose                    |
-|--------------------------------|----------------------------|
-| Visual Studio (.NET Framework) | Build & run the project    |
-| PostgreSQL                     | Store users & logs         |
-| API keys                       | OpenAI · TMDB · Google OAuth · **Stripe test keys** (`sk_test_*`, `pk_test_*`) |
+| Tool                           | Purpose                                    |
+|--------------------------------|--------------------------------------------|
+| Visual Studio (.NET Framework) | Build & run the project                    |
+| PostgreSQL                     | Store users & logs                         |
+| API keys                       | OpenAI · TMDB · Google OAuth · Stripe Keys |
 
 ---
 
@@ -41,16 +53,16 @@ Powered by AI, integrated with TMDB, Google OAuth, and **Stripe Checkout**, it d
 
 ## 🎥 Demo Video
 
-▶️ **Watch the demo on YouTube**  
-[https://youtu.be/M9_5bSHv584](https://youtu.be/cRubk3kmMq4)
+▶️ **Watch the demo on YouTube**
+[https://youtu.be/cRubk3kmMq4](https://youtu.be/cRubk3kmMq4)
 
 ---
 
 ## 🧠 Credits
 
-- Movie metadata — [TMDB](https://www.themoviedb.org/)  
-- Mood analysis — [OpenAI](https://platform.openai.com/)  
-- OAuth — [Google Cloud](https://console.cloud.google.com/)  
+- Movie metadata — [TMDB](https://www.themoviedb.org/)
+- Mood analysis — [OpenAI](https://platform.openai.com/)
+- OAuth — [Google Cloud](https://console.cloud.google.com/)
 - Payments — [Stripe](https://stripe.com/)
 
 ---
