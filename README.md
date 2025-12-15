@@ -63,6 +63,7 @@ Powered by AI and fully deployed to a live production environment, it integrates
 - OAuth — [Google Cloud](https://console.cloud.google.com/)
 - Payments — [Stripe](https://stripe.com/)
 - Hosting — [Somee](http://somee.com/)
+- Hosting DB — [Neon Tech](https://neon.com/)
 
 ---
 
