@@ -22,14 +22,12 @@ Powered by AI and fully deployed to a live production environment, it integrates
 ### Backend & Frontend
 - **Framework:** ASP.NET Web Forms (.NET Framework)
 - **Language:** C#
-- **Database:** PostgreSQL (Npgsql)
 - **Frontend:** HTML5, CSS3, JavaScript
 
-### Deployment & Infrastructure
-- **Hosting:** Somee.com (Windows Server / IIS)
-- **Configuration:** Advanced `Web.config` management for production environments.
-- **Dependency Management:** Manual assembly binding and DLL management for cloud compatibility.
-- **Environment Handling:** Dynamic URL routing supporting both Localhost and Production.
+### Infrastructure & Cloud Services
+- **Web Hosting:** [Somee.com](http://somee.com/) (Windows Server / IIS)
+- **Database Cloud:** Neon Tech (PostgreSQL)
+- **Production Config:** Advanced `Web.config` management with Assembly Binding Redirects.
 
 ---
 
@@ -64,6 +62,7 @@ Powered by AI and fully deployed to a live production environment, it integrates
 - Mood analysis — [OpenAI](https://platform.openai.com/)
 - OAuth — [Google Cloud](https://console.cloud.google.com/)
 - Payments — [Stripe](https://stripe.com/)
+- Hosting — [Somee](http://somee.com/)
 
 ---
 
