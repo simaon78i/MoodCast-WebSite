@@ -13,7 +13,7 @@ Powered by AI and fully deployed to a live production environment, it integrates
 - 👤 **Google OAuth 2.0 (Live)** — fully configured authentication working on a public domain.
 - 💳 **Stripe Checkout (Live Integration)** — handles secure payments and dynamic redirects between the payment gateway and the live server.
 - 🛠️ **Admin panel** — manage registered users and view logs.
-- ☁️ **Cloud Hosted** — The application is deployed and running on a remote IIS server.
+- ☁️ **Cloud Hosted** — The application is deployed and running on a remote IIS server with optimized media delivery.
 
 ---
 
@@ -26,7 +26,8 @@ Powered by AI and fully deployed to a live production environment, it integrates
 
 ### Infrastructure & Cloud Services
 - **Web Hosting:** [Somee.com](http://somee.com/) (Windows Server / IIS)
-- **Database Cloud:** [Neon Tech](https://neon.com/) (PostgreSQL)
+- **Database Cloud:** [Neon Tech](https://neon.tech/) (PostgreSQL)
+- **Media & Image CDN:** [Cloudinary](https://cloudinary.com/) (High-performance image storage & optimization)
 - **Production Config:** Advanced `Web.config` management with Assembly Binding Redirects.
 
 ---
@@ -39,7 +40,7 @@ Powered by AI and fully deployed to a live production environment, it integrates
 |--------------------------------|--------------------------------------------|
 | Visual Studio (.NET Framework) | Build & run the project                    |
 | PostgreSQL                     | Store users & logs                         |
-| API keys                       | OpenAI · TMDB · Google OAuth · Stripe Keys |
+| API keys                       | OpenAI · TMDB · Google · Stripe · Cloudinary|
 
 ---
 
@@ -63,7 +64,8 @@ Powered by AI and fully deployed to a live production environment, it integrates
 - OAuth — [Google Cloud](https://console.cloud.google.com/)
 - Payments — [Stripe](https://stripe.com/)
 - Hosting — [Somee](http://somee.com/)
-- Hosting DB — [Neon Tech](https://neon.com/)
+- DB Hosting — [Neon Tech](https://neon.tech/)
+- Image Optimization — [Cloudinary](https://cloudinary.com/)
 
 ---
 
