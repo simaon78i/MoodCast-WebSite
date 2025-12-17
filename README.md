@@ -33,7 +33,6 @@ Powered by AI and fully deployed to a live production environment, it integrates
 - **Web Hosting:** [Somee.com](http://somee.com/) (Windows Server / IIS)
 - **Database Cloud:** [Neon Tech](https://neon.tech/) (PostgreSQL)
 - **Media & Image CDN:** [Cloudinary](https://cloudinary.com/) (High-performance image storage & optimization)
-- **Production Config:** Advanced `Web.config` management with Assembly Binding Redirects.
 
 ---
 
@@ -50,10 +49,11 @@ Powered by AI and fully deployed to a live production environment, it integrates
 
 ---
 
-## 🖼️ Screenshots
+## 🖼️ App Preview
 
 <p align="center">
-  <img src="favicon_io (1)/android-chrome-512x512.png" width="150" alt="MoodCast Logo">
+  <img src="favicon_io (1)/android-chrome-512x512.png" width="120" alt="MoodCast Logo" style="margin-right: 20px;">
+  <img src="assets/example.png" width="120" alt="MoodCast Screenshot">
   <br>
   <i>MoodCast - Finding the perfect film for your mood.</i>
 </p>
@@ -62,7 +62,7 @@ Powered by AI and fully deployed to a live production environment, it integrates
 
 ## 🎥 Demo Video
 
-▶️ **Watch the demo on YouTube** [MoodCast Demo Video](https://youtu.be/cRubk3kmMq4)
+▶️ **Watch the demo on YouTube** [MoodCast Demo Video](https://youtu.be/cRubk3rup4)
 
 ---
 
@@ -72,7 +72,7 @@ Powered by AI and fully deployed to a live production environment, it integrates
 - **Movie Data:** [TMDB API](https://www.themoviedb.org/) for the extensive film database.
 - **Packaging:** [PWABuilder](https://www.pwabuilder.com/) by Microsoft.
 - **Cloud Media:** [Cloudinary](https://cloudinary.com/) for lightning-fast poster delivery.
-- **Design:** Posters and branding assets generated with AI for a unique cinematic feel.
+- **Design:** Branding assets and cinematic posters generated with AI.
 
 ---
 
