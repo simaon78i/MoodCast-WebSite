@@ -46,7 +46,7 @@ Powered by AI and fully deployed to a live production environment, it integrates
 
 ## 🖼️ Screenshot & Logo
 
-![MoodCast Logo](favicon_io/android-chrome-512x512.png) ![MoodCast Screenshot](assets/example.png)
+![MoodCast Logo](favicon_io_(1)/android-chrome-512x512.png) ![MoodCast Screenshot](assets/example.png)
 
 
 ---
