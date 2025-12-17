@@ -33,6 +33,7 @@ Powered by AI and fully deployed to a live production environment, it integrates
 - **Web Hosting:** [Somee.com](http://somee.com/) (Windows Server / IIS)
 - **Database Cloud:** [Neon Tech](https://neon.tech/) (PostgreSQL)
 - **Media & Image CDN:** [Cloudinary](https://cloudinary.com/) (High-performance image storage & optimization)
+- **Production Config:** Advanced `Web.config` management with Assembly Binding Redirects.
 
 ---
 
@@ -54,7 +55,7 @@ Powered by AI and fully deployed to a live production environment, it integrates
 <p align="center">
   <img src="favicon_io (1)/android-chrome-512x512.png" width="150" alt="MoodCast Logo">
   <br><br>
-  <img src="assets/example.png" width="360" alt="MoodCast Screenshot">
+  <img src="assets/example.png" width="450" alt="MoodCast Screenshot">
   <br>
   <i>MoodCast - Finding the perfect film for your mood.</i>
 </p>
@@ -63,17 +64,21 @@ Powered by AI and fully deployed to a live production environment, it integrates
 
 ## 🎥 Demo Video
 
-▶️ **Watch the demo on YouTube** [MoodCast Demo Video](https://youtu.be/cRubk3rup4)
+▶️ **Watch the demo on YouTube** [MoodCast Demo Video](https://youtu.be/cRubk3kmMq4)
 
 ---
 
-## 🧠 Credits & Acknowledgments
+## 🧠 Credits
 
-- **AI Engine:** [Google Gemini](https://ai.google.dev/) for mood-to-genre mapping.
-- **Movie Data:** [TMDB API](https://www.themoviedb.org/) for the extensive film database.
-- **Packaging:** [PWABuilder](https://www.pwabuilder.com/) by Microsoft.
-- **Cloud Media:** [Cloudinary](https://cloudinary.com/) for lightning-fast poster delivery.
-- **Design:** Branding assets and cinematic posters generated with AI.
+- **Movie Metadata** — [TMDB](https://www.themoviedb.org/)
+- **OAuth & Mood Analysis** — [Google Cloud Console](https://console.cloud.google.com/)
+- **AI Engine** — [Google Gemini](https://ai.google.dev/)
+- **Payments** — [Stripe](https://stripe.com/)
+- **Hosting** — [Somee.com](http://somee.com/)
+- **Database Hosting** — [Neon Tech](https://neon.tech/)
+- **Image Optimization** — [Cloudinary](https://cloudinary.com/)
+- **App Packaging** — [PWABuilder](https://www.pwabuilder.com/) (Microsoft)
+- **Design & Assets** — Branding and cinematic posters generated with AI.
 
 ---
 
