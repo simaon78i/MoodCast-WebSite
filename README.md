@@ -1,6 +1,6 @@
 # 🎬 MoodCast — AI-Powered Movie Recommendations
 
-**MoodCast** is a smart movie-recommendation website that suggests films based on your current mood.
+**MoodCast** is a smart movie-recommendation Progressive Web App (PWA)  that suggests films based on your current mood.
 Powered by AI and fully deployed to a live production environment, it integrates TMDB, Google OAuth, and **Stripe Checkout** to deliver a seamless cinematic experience.
 
 ---
@@ -44,9 +44,10 @@ Powered by AI and fully deployed to a live production environment, it integrates
 
 ---
 
-## 🖼️ Screenshot
+## 🖼️ Screenshot & Logo
 
-![MoodCast Screenshot](assets/example.png)
+![MoodCast Screenshot](assets/example.png) ![MoodCast Screenshot](assets/example.png)
+
 
 ---
 
