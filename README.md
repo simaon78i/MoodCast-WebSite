@@ -53,15 +53,14 @@ Powered by AI and fully deployed to a live production environment, it integrates
 ## 🎥 Demo Video
 
 ▶️ **Watch the demo on YouTube**
-[https://youtu.be/cRubk3kmMq4](https://youtu.be/cRubk3kmMq4)
+[Demo Video](https://youtu.be/cRubk3kmMq4)
 
 ---
 
 ## 🧠 Credits
 
 - Movie metadata — [TMDB](https://www.themoviedb.org/)
-- Mood analysis — **Google Gemini**
-- OAuth — [Google Cloud](https://console.cloud.google.com/)
+- OAuth & Mood analysis — [Google Cloud](https://console.cloud.google.com/)
 - Payments — [Stripe](https://stripe.com/)
 - Hosting — [Somee](http://somee.com/)
 - DB Hosting — [Neon Tech](https://neon.tech/)
