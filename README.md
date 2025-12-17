@@ -52,8 +52,9 @@ Powered by AI and fully deployed to a live production environment, it integrates
 ## 🖼️ App Preview
 
 <p align="center">
-  <img src="favicon_io (1)/android-chrome-512x512.png" width="120" alt="MoodCast Logo" style="margin-right: 20px;">
-  <img src="assets/example.png" width="120" alt="MoodCast Screenshot">
+  <img src="favicon_io (1)/android-chrome-512x512.png" width="150" alt="MoodCast Logo">
+  <br><br>
+  <img src="assets/example.png" width="360" alt="MoodCast Screenshot">
   <br>
   <i>MoodCast - Finding the perfect film for your mood.</i>
 </p>
