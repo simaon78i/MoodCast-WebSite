@@ -1,28 +1,33 @@
 # 🎬 MoodCast — AI-Powered Movie Recommendations
 
-**MoodCast** is a smart movie-recommendation Progressive Web App (PWA)  that suggests films based on your current mood.
+**MoodCast** is a smart movie-recommendation Progressive Web App (PWA) that suggests films based on your current mood. 
 Powered by AI and fully deployed to a live production environment, it integrates TMDB, Google OAuth, and **Stripe Checkout** to deliver a seamless cinematic experience.
 
 ---
 
 ## 🌟 Features (Production Ready)
 
-- 🎭 **Mood-based movie suggestions** — describe how you feel, and AI finds the match.
-- 🤖 **Google Gemini integration** — live connection to Google Gemini API for real-time analysis.
-- 🎬 **TMDB API** — fetches real-time metadata, posters, and ratings.
-- 👤 **Google OAuth 2.0 (Live)** — fully configured authentication working on a public domain.
-- 💳 **Stripe Checkout (Live Integration)** — handles secure payments and dynamic redirects between the payment gateway and the live server.
-- 🛠️ **Admin panel** — manage registered users and view logs.
-- ☁️ **Cloud Hosted** — The application is deployed and running on a remote IIS server with optimized media delivery.
+- 🎭 **Mood-based movie suggestions** — Describe how you feel, and AI finds the perfect match.
+- 🤖 **Google Gemini Integration** — Live connection to Google Gemini API for real-time mood analysis.
+- 🎬 **TMDB API** — Fetches real-time metadata, high-quality posters, and ratings.
+- 👤 **Google OAuth 2.0 (Live)** — Fully configured authentication working on a public domain.
+- 💳 **Stripe Checkout (Live Integration)** — Secure payment handling with dynamic redirects.
+- 📱 **Native Android Experience (PWA)** — Installable APK with a standalone interface, no browser bars, and custom splash screen.
+- 🌀 **Cinematic Loading Engine** — Custom CSS3/JS animation featuring a pulsing logo and dynamic "flying" movie posters.
 
 ---
 
 ## 🛠️ Tech Stack & Deployment
 
 ### Backend & Frontend
-- **Framework:** ASP.NET Web Forms (.NET Framework)
+- **Framework:** ASP.NET Web Forms (.NET Framework 4.7.2+)
 - **Language:** C#
-- **Frontend:** HTML5, CSS3, JavaScript
+- **Frontend:** HTML5, CSS3 (Flexbox/Grid), JavaScript (ES6+)
+
+### Mobile & PWA Infrastructure
+- **App Packaging:** [PWABuilder](https://www.pwabuilder.com/) (TWA - Trusted Web Activity)
+- **Asset Verification:** Digital Asset Links (`assetlinks.json`) for deep linking and native UI.
+- **Client-Side Storage:** `sessionStorage` for optimized animation lifecycle management.
 
 ### Infrastructure & Cloud Services
 - **Web Hosting:** [Somee.com](http://somee.com/) (Windows Server / IIS)
@@ -38,34 +43,36 @@ Powered by AI and fully deployed to a live production environment, it integrates
 
 | Tool                           | Purpose                                    |
 |--------------------------------|--------------------------------------------|
-| Visual Studio (.NET Framework) | Build & run the project                    |
-| PostgreSQL                     | Store users & logs                         |
-| API keys                       | **Google Gemini** · TMDB · Google · Stripe · Cloudinary|
+| Visual Studio 2022+            | Build & run the project                    |
+| PostgreSQL                     | Database for users & activity logs         |
+| **PWABuilder CLI** | Convert Web App to Native Android APK/AAB  |
+| API Keys                       | Google Gemini · TMDB · Google Cloud · Stripe · Cloudinary |
 
 ---
 
-## 🖼️ Screenshot & Logo
+## 🖼️ Screenshots
 
-![MoodCast Logo](favicon_io%20(1)/android-chrome-512x512.png) ![MoodCast Screenshot](assets/example.png)
-
+<p align="center">
+  <img src="favicon_io (1)/android-chrome-512x512.png" width="150" alt="MoodCast Logo">
+  <br>
+  <i>MoodCast - Finding the perfect film for your mood.</i>
+</p>
 
 ---
 
 ## 🎥 Demo Video
 
-▶️ **Watch the demo on YouTube**
-[Demo Video](https://youtu.be/cRubk3kmMq4)
+▶️ **Watch the demo on YouTube** [MoodCast Demo Video](https://youtu.be/cRubk3kmMq4)
 
 ---
 
-## 🧠 Credits
+## 🧠 Credits & Acknowledgments
 
-- Movie metadata — [TMDB](https://www.themoviedb.org/)
-- OAuth & Mood analysis — [Google Cloud](https://console.cloud.google.com/)
-- Payments — [Stripe](https://stripe.com/)
-- Hosting — [Somee](http://somee.com/)
-- DB Hosting — [Neon Tech](https://neon.tech/)
-- Image Optimization — [Cloudinary](https://cloudinary.com/)
+- **AI Engine:** [Google Gemini](https://ai.google.dev/) for mood-to-genre mapping.
+- **Movie Data:** [TMDB API](https://www.themoviedb.org/) for the extensive film database.
+- **Packaging:** [PWABuilder](https://www.pwabuilder.com/) by Microsoft.
+- **Cloud Media:** [Cloudinary](https://cloudinary.com/) for lightning-fast poster delivery.
+- **Design:** Posters and branding assets generated with AI for a unique cinematic feel.
 
 ---
 
