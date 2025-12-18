@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI;
@@ -17,6 +17,9 @@ public partial class Home_Page : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        // Enforce TLS 1.2 for Google/TMDB connections
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
         if (!IsPostBack)
         {
             EnsureDatabaseSetup();
@@ -26,6 +29,15 @@ public partial class Home_Page : System.Web.UI.Page
         if (Session["isAdmin"] != null && (bool)Session["isAdmin"])
         {
             adminLink.Visible = true;
+        }
+        if (Session["counter"] != null && (int)Session["counter"]!=-1)
+        {
+            premiumLink.Visible = true;
+            lblCounterMassage.Text = "<br/>You have left " + Session["counter"] + " tries in your free acount if you want more upgrade to premium<br/>";
+        }
+        if( Session["counter"] != null && (int)Session["counter"] == -1)
+        {
+            lblCounterMassage.Text = "<br/>You have unlimited tries with your premium account enjoy :)<br/>";
         }
     }
 
@@ -42,6 +54,8 @@ public partial class Home_Page : System.Web.UI.Page
                     password TEXT NOT NULL,
                     email VARCHAR(100) NOT NULL UNIQUE,
                     fullName VARCHAR(100),
+                    is_verified BOOLEAN DEFAULT FALSE,
+                    counter INT DEFAULT 5,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );";
 
@@ -52,10 +66,19 @@ public partial class Home_Page : System.Web.UI.Page
                     password TEXT NOT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );";
+            string sqlVerification = @"
+                CREATE TABLE IF NOT EXISTS user_verifications (
+                    id SERIAL PRIMARY KEY,
+                    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                    code VARCHAR(10) NOT NULL,
+                    expires_at TIMESTAMP NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );";
 
             using (var cmd = new NpgsqlCommand(sqlUsers, conn)) { cmd.ExecuteNonQuery(); }
             using (var cmd = new NpgsqlCommand(sqlAdmin, conn)) { cmd.ExecuteNonQuery(); }
-
+            using (var cmd = new NpgsqlCommand(sqlVerification, conn)) { cmd.ExecuteNonQuery(); }
+           
             string adminUsername = ConfigurationManager.AppSettings["adminUserName"];
             string adminPassword = ConfigurationManager.AppSettings["adminPassword"];
 
@@ -67,15 +90,18 @@ public partial class Home_Page : System.Web.UI.Page
                 try { cmd.ExecuteNonQuery(); } catch (PostgresException ex) { if (ex.SqlState != "23505") throw; }
             }
 
-            string insertUser = "INSERT INTO users (username, password, email, fullName) VALUES (@username, @password, @email, @fullName);";
+            string insertUser = "INSERT INTO users (username, password, email, fullName, is_verified,counter) VALUES (@username, @password, @email, @fullName,@verify,@counter);";
             using (var cmd = new NpgsqlCommand(insertUser, conn))
             {
                 cmd.Parameters.AddWithValue("@username", adminUsername);
-                cmd.Parameters.AddWithValue("@password", adminPassword);
+                cmd.Parameters.AddWithValue("@password", HashPassword(adminPassword));
                 cmd.Parameters.AddWithValue("@email", "simaon78ifrac@gmail.com");
                 cmd.Parameters.AddWithValue("@fullName", "Shimon Ifrach");
+                cmd.Parameters.AddWithValue("@verify", true);
+                cmd.Parameters.AddWithValue("@counter", -1);
                 try { cmd.ExecuteNonQuery(); } catch (PostgresException ex) { if (ex.SqlState != "23505") throw; }
             }
+            
         }
     }
 
@@ -87,6 +113,7 @@ public partial class Home_Page : System.Web.UI.Page
             signup.Visible = false;
             btnLogout.Visible = true;
             lblWelcome.InnerText = "Welcome page admin " + Session["UserName"] + " :)";
+           
         }
         else if (Session["UserName"] != null)
         {
@@ -95,6 +122,11 @@ public partial class Home_Page : System.Web.UI.Page
             btnLogout.Visible = true;
             lblWelcome.InnerText = "Welcome " + Session["UserName"] + " :) ";
         }
+    }
+
+    private string HashPassword(string password)
+    {
+        return BCrypt.Net.BCrypt.HashPassword(password);
     }
 
     protected void btnLogout_Click(object sender, EventArgs e)
@@ -112,82 +144,186 @@ public partial class Home_Page : System.Web.UI.Page
             Context.ApplicationInstance.CompleteRequest();
             return;
         }
-
+        else if (Session["counter"] != null && (int)Session["counter"] == 0)
+        {
+            lblCounterMassage.Text = "<p style='color:red;'>You have exhausted your free recommendations. Please upgrade to premium for unlimited access.</p>";
+            return;
+        }
         string mood = txtMood.Text;
+        litRecommendations.Text = "<p>Searching for the best matches with trailers...</p>"; 
+
         try
         {
+            // 1. Get a larger pool of candidates
             string moviesText = await GetMovieRecommendations(mood);
-            List<string> movieTitles = ExtractMovieTitles(moviesText);
+
+            if (moviesText.StartsWith("Error") || moviesText.Contains("\"error\"") || moviesText.Contains("UNAVAILABLE") || moviesText.Contains("RESOURCE_EXHAUSTED"))
+            {
+                 litRecommendations.Text = "<p style='color:red;'><b>Connection Error:</b> " + moviesText + "</p>";
+                 return;
+            }
+
+            List<string> allCandidates = ExtractMovieTitles(moviesText);
+
+            if (allCandidates.Count == 0)
+            {
+                 litRecommendations.Text = "<p style='color:orange;'>Could not parse movies. Raw AI response:</p><pre>" + moviesText + "</pre>";
+                 return;
+            }
 
             StringBuilder htmlOutput = new StringBuilder();
-            htmlOutput.Append("<h2>Movie recommendations based on your mood:</h2><div class='recommendations-row'>");
+            htmlOutput.Append("<h2>Recommendations based on your mood:</h2><div class='recommendations-row'>");
 
-            int count = 0;
-            foreach (string title in movieTitles)
+            int validMoviesFound = 0;
+
+            foreach (string title in allCandidates)
             {
-                if (count >= 4) break;
+                if (validMoviesFound >= 4) break;
 
-                string cleanTitle = title.Split(new[] { '(', '-', ':' })[0].Trim();
-                MovieInfo info = await GetMovieInfo(cleanTitle);
+                string cleanTitle = title.Trim();
+                MovieInfo info = await GetMediaInfo(cleanTitle);
 
-                if (info == null || string.IsNullOrEmpty(info.PosterUrl) || info.Rating == 0.0)
+                // Skip if missing poster
+                if (info == null || string.IsNullOrEmpty(info.PosterUrl))
                 {
-                    System.Diagnostics.Debug.WriteLine("Skipping: " + title);
                     continue;
                 }
 
+                // Skip if missing trailer
+                if (string.IsNullOrEmpty(info.TrailerUrl))
+                {
+                    continue; 
+                }
+
+                // FIX: Updated iframe attributes for Fullscreen and Security
+                string trailerHtml = string.Format(
+                    "<iframe src='{0}' " +
+                    "frameborder='0' " +
+                    "allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen' " +
+                    "allowfullscreen='true' " +
+                    "referrerpolicy='strict-origin-when-cross-origin'></iframe>", 
+                    info.TrailerUrl);
+                
                 htmlOutput.AppendFormat(
                     "<div class='movie-card'>" +
-                    "<img src='{0}' class='card-img-top' />" +
+                    "<img src='{0}' class='card-img-top' alt='{1}' />" + // Added alt text
                     "<div class='card-body'>" +
                     "<h5 class='card-title'>{1}</h5>" +
                     "<p class='card-text'>⭐ rating: {2} / 10</p>" +
-                    "<iframe src='{3}?mute=1' frameborder='0' allowfullscreen></iframe>" +
+                    "{3}" +
                     "</div></div>",
                     info.PosterUrl,
                     info.Title,
                     info.Rating.ToString("0.0"),
-                    info.TrailerUrl
+                    trailerHtml
                 );
 
-
-                count++;
+                validMoviesFound++;
             }
 
             htmlOutput.Append("</div>");
-            litRecommendations.Text = htmlOutput.ToString();
+            
+            if (validMoviesFound == 0)
+            {
+                 litRecommendations.Text = "<p>AI suggested titles, but none had valid posters or trailers available. Try a different mood.</p>";
+            }
+            else
+            {
+                 litRecommendations.Text = htmlOutput.ToString();
+            }
         }
         catch (Exception ex)
         {
-            litRecommendations.Text = "<p style='color:red;'>\u05d0\u05d9\u05e8\u05e2\u05d4 \u05e9\u05d2\u05d9\u05d0\u05d4: " + Server.HtmlEncode(ex.Message) + "</p>";
+            litRecommendations.Text = "<p style='color:red;'>System Error: " + Server.HtmlEncode(ex.Message) + "</p>";
         }
+        updateUserCounter();
+    }
+    private void updateUserCounter()
+    {
+        using (var conn = new NpgsqlConnection(connString))
+        {
+            conn.Open();
+            string username = Session["username"].ToString();
+            string getCounterQuery = "SELECT counter FROM users WHERE username = @username;";
+            int currentCounter = 0;
+            using (var cmd = new NpgsqlCommand(getCounterQuery, conn))
+            {
+                cmd.Parameters.AddWithValue("@username", username);
+                var result = cmd.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                {
+                    currentCounter = Convert.ToInt32(result);
+                }
+            }
+            if (currentCounter > 0)
+            {
+                currentCounter--;
+                string updateCounterQuery = "UPDATE users SET counter = @counter WHERE username = @username;";
+                using (var cmd = new NpgsqlCommand(updateCounterQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@counter", currentCounter);
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.ExecuteNonQuery();
+                }
+                Session["counter"] = currentCounter;
+            }
+        }
+        
     }
 
     private async Task<string> GetMovieRecommendations(string mood)
     {
-        string apiKey = ConfigurationManager.AppSettings["OpenAIKey"];
-        string prompt = "Give me a list of exactly 4 movies that appear on TMDB in any language and match the following mood: \"" + mood + "\". For each movie, provide only the movie title without a summary.";
+        string apiKey = ConfigurationManager.AppSettings["GoogleKey"];
+        if (apiKey != null) apiKey = apiKey.Trim();
+
+        // Stable Model
+        string apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent?key=" + apiKey;
+
+        // Prompt
+        string prompt = "Recommend exactly 12 movies, TV series, or anime that **strictly and perfectly match** the following specific mood/genre: \"" + mood + "\". " +
+                        "From the titles that fit this specific mood, prioritize the ones with the **highest ratings** (IMDB/TMDB) and critical acclaim. " +
+                        "**Crucial:** Do not recommend high-rated movies that do not fit the requested mood. Relevance is the #1 priority. " +
+                        "If the user asks for 'anime', the list **must** contain only Japanese animation. " +
+                        "List only the exact English title of each on a separate line without numbering, years, or extra characters.";
 
         using (HttpClient client = new HttpClient())
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            JObject jsonBody = new JObject();
+            JObject part = new JObject();
+            part["text"] = prompt;
+            JArray parts = new JArray();
+            parts.Add(part);
+            JObject contentObj = new JObject();
+            contentObj["parts"] = parts;
+            JArray contents = new JArray();
+            contents.Add(contentObj);
+            jsonBody["contents"] = contents;
 
-            string bodyJson = "{" +
-                "\"model\": \"gpt-3.5-turbo\"," +
-                "\"messages\": [{ \"role\": \"user\", \"content\": \"" + prompt.Replace("\"", "\\\"") + "\" }]" +
-                "}";
+            string jsonString = jsonBody.ToString();
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-            var content = new StringContent(bodyJson, Encoding.UTF8, "application/json");
-            HttpResponseMessage res = await client.PostAsync("https://api.openai.com/v1/chat/completions", content);
+            HttpResponseMessage res = await client.PostAsync(apiUrl, content);
             string resStr = await res.Content.ReadAsStringAsync();
 
-            JObject parsed = JObject.Parse(resStr);
-            if (parsed["choices"] != null && parsed["choices"].HasValues && parsed["choices"][0] != null && parsed["choices"][0]["message"] != null && parsed["choices"][0]["message"]["content"] != null)
+            if (!res.IsSuccessStatusCode)
             {
-                return parsed["choices"][0]["message"]["content"].ToString();
+                return "Error from Google API: " + res.StatusCode + " - " + resStr;
             }
 
-            return "";
+            JObject parsed = JObject.Parse(resStr);
+
+            if (parsed["candidates"] != null && parsed["candidates"].HasValues)
+            {
+                JToken firstCandidate = parsed["candidates"][0];
+                if (firstCandidate["content"] != null && 
+                    firstCandidate["content"]["parts"] != null && 
+                    firstCandidate["content"]["parts"].HasValues)
+                {
+                    return firstCandidate["content"]["parts"][0]["text"].ToString();
+                }
+            }
+
+            return "No recommendations found.";
         }
     }
 
@@ -198,32 +334,39 @@ public partial class Home_Page : System.Web.UI.Page
 
         foreach (var line in lines)
         {
-            string clean = line.Trim().TrimStart('-', '•', '1', '2', '3', '4', '.', ' ');
-            if (!string.IsNullOrEmpty(clean)) titles.Add(clean);
-            if (titles.Count == 4) break;
-        }
+            string clean = line.Trim().TrimStart(new char[] { '-', '•', '*', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', ' ', '"', '\'' });
+            
+            if (clean.Contains("("))
+            {
+                clean = clean.Split('(')[0].Trim();
+            }
 
+            if (!string.IsNullOrEmpty(clean) && clean.Length > 1)
+            {
+                titles.Add(clean);
+            }
+        }
+        
         if (titles.Count < 4)
         {
             var parts = raw.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var part in parts)
             {
-                string clean = part.Trim();
+                string clean = part.Trim().TrimStart(new char[] { '-', '•', '*', '.', ' ' });
                 if (!string.IsNullOrEmpty(clean) && !titles.Contains(clean)) titles.Add(clean);
-                if (titles.Count == 4) break;
             }
         }
 
         return titles;
     }
 
-    private async Task<MovieInfo> GetMovieInfo(string title)
+    private async Task<MovieInfo> GetMediaInfo(string title)
     {
         string tmdbKey = ConfigurationManager.AppSettings["TMDBKey"];
 
         using (HttpClient client = new HttpClient())
         {
-            string searchUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdbKey + "&query=" + Uri.EscapeDataString(title) + "&language=en";
+            string searchUrl = "https://api.themoviedb.org/3/search/multi?api_key=" + tmdbKey + "&query=" + Uri.EscapeDataString(title) + "&language=en";
             string responseStr = await client.GetStringAsync(searchUrl);
             JObject json = JObject.Parse(responseStr);
 
@@ -232,15 +375,29 @@ public partial class Home_Page : System.Web.UI.Page
             {
                 foreach (JToken result in json["results"])
                 {
-                    first = result;
-                    break;
+                    // Syntax Check: Manual null check instead of ?.
+                    string mediaType = result["media_type"] != null ? result["media_type"].ToString() : null;
+                    
+                    if (mediaType == "movie" || mediaType == "tv")
+                    {
+                        first = result;
+                        break;
+                    }
                 }
             }
 
             if (first == null) return null;
 
-            string posterPath = first["poster_path"] != null ? first["poster_path"].ToString() : "";
-            string realTitle = first["title"] != null ? first["title"].ToString() : title;
+            // FIX: Clean Poster Path (Remove leading slash if exists to prevent double slash)
+            string rawPoster = first["poster_path"] != null ? first["poster_path"].ToString() : "";
+            string posterUrl = "";
+            if (!string.IsNullOrEmpty(rawPoster))
+            {
+                // Ensure no double slash by trimming and adding manually
+                posterUrl = "https://image.tmdb.org/t/p/w500/" + rawPoster.TrimStart('/');
+            }
+            
+            string realTitle = first["title"] != null ? first["title"].ToString() : (first["name"] != null ? first["name"].ToString() : title);
 
             double rating = 0.0;
             if (first["vote_average"] != null)
@@ -248,29 +405,45 @@ public partial class Home_Page : System.Web.UI.Page
                 double.TryParse(first["vote_average"].ToString(), out rating);
             }
 
-            string posterUrl = !string.IsNullOrEmpty(posterPath) ? "https://image.tmdb.org/t/p/w500" + posterPath : "";
-
             string id = first["id"] != null ? first["id"].ToString() : "";
-            string videoUrl = "https://api.themoviedb.org/3/movie/" + id + "/videos?api_key=" + tmdbKey;
-            string videoResponse = await client.GetStringAsync(videoUrl);
-            JObject videoJson = JObject.Parse(videoResponse);
+            string mediaTypeFound = first["media_type"] != null ? first["media_type"].ToString() : "movie";
+            
+            string videoUrl;
+            if (mediaTypeFound == "tv")
+            {
+                 videoUrl = "https://api.themoviedb.org/3/tv/" + id + "/videos?api_key=" + tmdbKey;
+            }
+            else
+            {
+                 videoUrl = "https://api.themoviedb.org/3/movie/" + id + "/videos?api_key=" + tmdbKey;
+            }
 
             string trailerKey = null;
-            if (videoJson["results"] != null)
+            try 
             {
-                foreach (var v in videoJson["results"])
+                string videoResponse = await client.GetStringAsync(videoUrl);
+                JObject videoJson = JObject.Parse(videoResponse);
+
+                if (videoJson["results"] != null)
                 {
-                    if (v["site"] != null && v["site"].ToString() == "YouTube" &&
-                        v["type"] != null && v["type"].ToString() == "Trailer" &&
-                        v["key"] != null)
+                    foreach (var v in videoJson["results"])
                     {
-                        trailerKey = v["key"].ToString();
-                        break;
+                        if (v["site"] != null && v["site"].ToString() == "YouTube" &&
+                            v["type"] != null && v["type"].ToString() == "Trailer" &&
+                            v["key"] != null)
+                        {
+                            trailerKey = v["key"].ToString();
+                            break;
+                        }
                     }
                 }
             }
+            catch 
+            {
+            }
 
-            string trailerUrl = !string.IsNullOrEmpty(trailerKey) ? "https://www.youtube.com/embed/" + trailerKey : "";
+            // FIX: YouTube Params for Fullscreen (fs=1), Minimal Branding (modestbranding=1), No Related (rel=0)
+            string trailerUrl = !string.IsNullOrEmpty(trailerKey) ? "https://www.youtube.com/embed/" + trailerKey + "?mute=1&fs=1&modestbranding=1&rel=0" : "";
 
             return new MovieInfo
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Diagnostics;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
@@ -9,9 +10,9 @@ using Npgsql;
 public partial class oauth2callback : System.Web.UI.Page
 {
     private string connString = ConfigurationManager.ConnectionStrings["MoodCastDb"].ConnectionString;
+
     protected void Page_Load(object sender, EventArgs e)
     {
-
         string code = Request.QueryString["code"];
         string mode = Request.QueryString["state"];
 
@@ -27,53 +28,65 @@ public partial class oauth2callback : System.Web.UI.Page
             {
                 if (!UserExists(email))
                 {
-                    RegisterNewUser(email, name,token); // create new user in DB
-                    
+                    RegisterNewUser(email, name, token); // create new user in DB
                 }
                 else
                 {
                     Session["massage"] = "User already exists with this email.";
-                    Response.Redirect("english_log_in/register.aspx",false);
+                    Response.Redirect("english_log_in/register.aspx", false);
                     return;
                 }
-                Session["foremail"] = email;
-                Session["forusername"] = name;
-                Session["forpassword"] = token.Substring(0,8);
-                Response.Redirect("stripPayment/stripCheckout.aspx", false);
+                Session["email"] = email;
+                Session["username"] = name;
+                Session["password"] = token.Substring(0, 8);
+                Response.Redirect("HomePage.aspx");
+               
             }
             else
             {
                 if (UserExists(email))
                 {
-                    if(email==ConfigurationManager.AppSettings["adminEmail"])
+
+                    if (email == ConfigurationManager.AppSettings["adminEmail"])
                     {
                         Session["isAdmin"] = true;
                         Session["username"] = name;
                         Session["password"] = ConfigurationManager.AppSettings["adminPassword"];
                         Response.Redirect("HomePage.aspx", false);
-
                     }
                     else
                     {
                         Session["isAdmin"] = false;
+                        Session["email"] = email;
+                        Session["username"] = name;
+                        Session["password"] = token;
+                        Response.Redirect("HomePage.aspx", false);
                     }
-                    Session["email"] = email;
-                    Session["username"] = name;
-                    Session["password"] = token;
-
-                    Response.Redirect("HomePage.aspx", false);
                 }
                 else
                 {
                     Session["massage"] = "User does not exist. Please register first.";
                     Response.Redirect("english_log_in/register.aspx", false);
+                    return;
                 }
             }
-            
-
+            string quary = "SELECT counter FROM users WHERE email = @email";
+            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+                using (NpgsqlCommand cmdCheck = new NpgsqlCommand(quary, conn))
+                {
+                    cmdCheck.Parameters.AddWithValue("@email", email);
+                    var resultC = cmdCheck.ExecuteScalar();
+                    if (resultC != null && resultC != DBNull.Value)
+                    {
+                        int counter = Convert.ToInt32(resultC);
+                        Session["counter"] = counter;
+                    }
+                }
+            }
         }
     }
-
 
     private string ExchangeCodeForToken(string code)
     {
@@ -83,7 +96,8 @@ public partial class oauth2callback : System.Web.UI.Page
             values["code"] = code;
             values["client_id"] = ConfigurationManager.AppSettings["googleClientId"];
             values["client_secret"] = ConfigurationManager.AppSettings["googleClientSecret"];
-            values["redirect_uri"] = "https://localhost:44308/oauth2callback.aspx";
+            // Updated to HTTPS to match Google Console
+            values["redirect_uri"] = "https://www.MoodCastApp.somee.com/oauth2callback.aspx";
             values["grant_type"] = "authorization_code";
 
             byte[] response = client.UploadValues("https://oauth2.googleapis.com/token", "POST", values);
@@ -100,11 +114,10 @@ public partial class oauth2callback : System.Web.UI.Page
             client.Headers.Add(HttpRequestHeader.Authorization, "Bearer " + accessToken);
 
             byte[] data = client.DownloadData("https://www.googleapis.com/oauth2/v2/userinfo");
-            string json = Encoding.UTF8.GetString(data);    
+            string json = Encoding.UTF8.GetString(data);
             return JsonConvert.DeserializeObject(json);
         }
     }
-
 
     private bool UserExists(string email)
     {
@@ -121,32 +134,31 @@ public partial class oauth2callback : System.Web.UI.Page
         }
     }
 
-
-    private void RegisterNewUser(string email, string name,string token)
+    private void RegisterNewUser(string email, string name, string token)
     {
         using (NpgsqlConnection conn = new NpgsqlConnection(connString))
         {
             conn.Open();
-            string quary = "INSERT INTO users (username,password, email, fullName) VALUES (@username,@password,@email, @fullName)";
+            string quary = "INSERT INTO users (username, password, email, fullName,is_verified) VALUES (@username, @password, @email, @fullName,@is_verified)";
             using (NpgsqlCommand cmd = new NpgsqlCommand(quary, conn))
             {
                 cmd.Parameters.AddWithValue("@username", name);
-                cmd.Parameters.AddWithValue("@password", token.Substring(0,8)); // Set a default password or handle it as needed
+                cmd.Parameters.AddWithValue("@password", token.Substring(0, 8)); // Set a default password or handle it as needed
                 cmd.Parameters.AddWithValue("@email", email);
                 cmd.Parameters.AddWithValue("@fullName", name);
+                cmd.Parameters.AddWithValue("@is_verified", true); // Google users are considered verified
+
                 try
                 {
                     cmd.ExecuteNonQuery();
                     Session["username"] = name;
-                    Session["password"] = token.Substring(0,8); // Set a default password or handle it as needed
+                    Session["password"] = token.Substring(0, 8); // Set a default password or handle it as needed
                 }
                 catch (NpgsqlException ex)
                 {
                     throw new Exception("Error registering user: " + ex.Message);
                 }
-
             }
         }
     }
-
 }
