@@ -1,4 +1,5 @@
-﻿* {
+/* Reset & Base Styles */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -6,8 +7,7 @@
 
 html, body {
     height: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('../assets/bgp.png') no-repeat center center fixed;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  background:url('https://res.cloudinary.com/ddja5g5wa/image/upload/v1765882412/bgp_wa9l25.png') no-repeat center center fixed;
     background-size: cover;
     color: #000;
     overflow-x: hidden;
@@ -127,3 +127,77 @@ footer {
     text-overflow: ellipsis;
 }
 
+/* רספונסיביות */
+
+@media (min-width: 768px) {
+    body {
+        padding-top: 80px;
+    }
+
+    nav {
+        padding: 1rem 2rem;
+    }
+
+    nav a {
+        font-size: 1.5rem;
+    }
+
+    main {
+        padding: 30px;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+    
+    .gridview-style td:nth-child(3) {
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 767px) {
+    body {
+        padding-top: 60px;
+    }
+
+    nav {
+        padding: 0.75rem 1rem;
+    }
+
+    nav a {
+        font-size: 1.2rem;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .admin-box {
+        padding: 15px;
+    }
+
+    .gridview-style th, .gridview-style td {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .gridview-style td:nth-child(3) {
+        max-width: 150px; 
+    }
+    
+    .action {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+    
+    footer {
+        font-size: 12px;
+        padding: 8px 0;
+    }
+}

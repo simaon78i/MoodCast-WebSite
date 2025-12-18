@@ -1,9 +1,9 @@
-﻿/* רקע מלא */
+/* רקע מלא */
 html, body {
     height: 100%;
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('../assets/bg.png') no-repeat center center fixed;
+    background: url('https://res.cloudinary.com/ddja5g5wa/image/upload/v1765882411/bgy_rxa1gg.png') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -17,6 +17,8 @@ html, body {
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 550px;
 }
 
 /* כפתור/קישור חזרה */
@@ -38,3 +40,31 @@ html, body {
         transform: translateY(-2px);
         filter: brightness(.9);
     }
+
+/* רספונסיביות */
+
+@media (min-width: 601px) {
+    .pay-box {
+        padding: 40px 60px;
+    }
+    
+    .btn-home {
+        padding: 12px 28px;
+        font-size: 1.05rem;
+        width: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .pay-box {
+        padding: 30px 20px;
+        border-radius: 16px;
+    }
+
+    .btn-home {
+        padding: 10px 20px;
+        font-size: 1rem;
+        width: 80%;
+        max-width: 300px;
+    }
+}

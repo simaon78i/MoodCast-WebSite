@@ -1,13 +1,13 @@
-﻿/* --- Stripe Checkout Page Styling --- */
+/* --- Stripe Checkout Page Styling --- */
 
-/* רקע מלא – אותה תמונה כמו באתר שלך */
+/* רקע מלא */
 html, body {
     height: 100%;
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('../assets/bg.png') no-repeat center center fixed;
+    background: url('https://res.cloudinary.com/ddja5g5wa/image/upload/v1765882412/bg_hdhtbq.png') no-repeat center center fixed;
     background-size: cover;
-    display: flex; /* מרכז את התוכן אופקית ואנכית */
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -19,11 +19,13 @@ html, body {
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
 }
 
 /* כפתור "Pay with Stripe" מעוצב */
 .btn-stripe {
-    background: #3b82f6; /* כחול בסגנון action.edit */
+    background: #3b82f6;
     color: #fff;
     border: none;
     border-radius: 50px;
@@ -31,9 +33,37 @@ html, body {
     font-size: 1.1rem;
     cursor: pointer;
     transition: transform 0.15s, filter 0.25s;
+    width: 100%;
 }
 
     .btn-stripe:hover {
         transform: translateY(-2px);
         filter: brightness(0.9);
     }
+
+/* רספונסיביות */
+
+@media (min-width: 601px) {
+    .pay-box {
+        padding: 40px 60px;
+    }
+    
+    .btn-stripe {
+        max-width: 350px;
+        display: inline-block;
+        padding: 14px 32px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .pay-box {
+        padding: 30px 20px;
+        border-radius: 16px;
+    }
+
+    .btn-stripe {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}

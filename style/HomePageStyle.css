@@ -1,4 +1,4 @@
-﻿/* איפוס */
+/* איפוס */
 * {
     margin: 0;
     padding: 0;
@@ -8,7 +8,7 @@
 html, body {
     height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('../assets/bgam.png') no-repeat center center fixed;
+    background: url('https://res.cloudinary.com/ddja5g5wa/image/upload/v1765882413/bgam_d0gaka.png') no-repeat center center fixed;
     background-size: cover;
     color: #000;
     overflow-x: hidden;
@@ -18,6 +18,7 @@ body {
     padding-top: 80px;
     background-color: #f0f2f5;
 }
+
 
 nav {
     background: #1e293b;
@@ -44,7 +45,8 @@ nav {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        margin-top: 0.5rem;
+        align-items: center;
+        margin-top: 0;
     }
 
     nav a {
@@ -116,7 +118,6 @@ main {
         transform: translateY(-3px);
     }
 
-/* עיצוב רשימת ההמלצות */
 .recommendations-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -175,27 +176,6 @@ iframe {
     border-radius: 0 0 15px 15px;
 }
 
-/* רספונסיביות */
-@media (max-width: 1024px) {
-    .recommendations-row {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .movie-card img {
-        height: 300px;
-    }
-}
-
-@media (max-width: 600px) {
-    .recommendations-row {
-        grid-template-columns: 1fr;
-    }
-
-    .movie-card img {
-        height: 250px;
-    }
-}
-
 footer {
     position: fixed;
     bottom: 0;
@@ -204,4 +184,102 @@ footer {
     background-color: #1e293b;
     color: white;
     padding: 10px 0;
+}
+
+
+/* רספונסיביות */
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    nav {
+        flex-wrap: nowrap;
+        padding: 1rem 1.5rem;
+    }
+
+    nav div {
+        gap: 8px;
+    }
+    
+    body {
+        padding-top: 80px;
+    }
+
+    .mood-box {
+        padding: 30px;
+    }
+    
+    .mood-box h1 {
+        font-size: 1.75rem;
+    }
+    
+    .input-box, .btn-primary {
+        max-width: 500px; 
+    }
+
+    .recommendations-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .movie-card img {
+        height: 350px;
+    }
+}
+
+@media (max-width: 600px) {
+    nav {
+        flex-direction: column;
+        padding: 0.5rem 1rem;
+        align-items: flex-start;
+    }
+    
+    nav > a {
+        margin-bottom: 0.5rem;
+    }
+
+    nav div {
+        width: 100%;
+        justify-content: space-between;
+        gap: 0;
+        margin-top: 0;
+    }
+
+    nav a {
+        font-size: 1rem;
+        padding: 0.5rem 0.5rem;
+    }
+
+    body {
+        padding-top: 95px; 
+    }
+
+    .mood-box {
+        padding: 20px;
+    }
+
+    .mood-box h1 {
+        font-size: 1.5rem;
+    }
+
+    .input-box {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        padding: 12px;
+        font-size: 1.1rem;
+    }
+
+    .recommendations-row {
+        grid-template-columns: 1fr;
+    }
+
+    .movie-card img {
+        height: 250px;
+    }
+    
+    footer {
+        font-size: 12px;
+        padding: 8px 0;
+    }
 }

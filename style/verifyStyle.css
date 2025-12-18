@@ -1,5 +1,4 @@
-/* Reset & Base Styles */
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -17,7 +16,6 @@ body {
     overflow: hidden;
 }
 
-/* Container with glass effect */
 form {
     background: rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -36,28 +34,34 @@ form {
 h1 {
     font-size: 2rem;
     font-weight: 800;
-    text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     color: black;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 25px;
 }
 
 .input-box {
     width: 100%;
     padding: 14px 18px;
     margin-bottom: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid #3b82f6;
     border-radius: 12px;
     color: black;
-    border-color: blue;
-    font-size: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    letter-spacing: 8px;
     transition: all 0.3s ease-in-out;
 }
 
     .input-box:focus {
         outline: none;
-        border-color: #60a5fa;
-        background: rgba(255, 255, 255, 0.15);
+        border-color: #2563eb;
+        background: rgba(255, 255, 255, 0.5);
     }
 
 .btn-primary {
@@ -79,26 +83,26 @@ h1 {
     }
 
 .error-message {
-    text-align: center;
-    color: #f87171;
-    font-weight: 500;
-    margin-top: 12px;
+    display: block;
+    margin-top: 15px;
+    color: #dc2626;
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
-.register-link {
+.resend-link {
     margin-top: 25px;
-    text-align: center;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: black;
 }
 
-    .register-link a {
-        color: #60a5fa;
+    .resend-link a {
+        color: #2563eb;
         text-decoration: none;
-        font-weight: 500;
+        font-weight: 700;
     }
 
-        .register-link a:hover {
+        .resend-link a:hover {
             text-decoration: underline;
         }
 
@@ -114,62 +118,12 @@ h1 {
     }
 }
 
-/* רספונסיביות */
-
-@media (min-width: 501px) {
-    form {
-        padding: 40px;
-    }
-    
-    h1 {
-        font-size: 2rem;
-        margin-bottom: 30px;
-    }
-    
-    .input-box {
-        padding: 14px 18px;
-        margin-bottom: 20px;
-        font-size: 1rem;
-    }
-
-    .btn-primary {
-        padding: 14px;
-        font-size: 1rem;
-    }
-
-    .register-link {
-        margin-top: 25px;
-        font-size: 0.95rem;
-    }
-}
-
 @media (max-width: 500px) {
     form {
         padding: 30px 20px;
-        border-radius: 16px;
     }
-    
+
     h1 {
         font-size: 1.75rem;
-        margin-bottom: 25px;
-    }
-    
-    .input-box {
-        padding: 12px 15px;
-        margin-bottom: 15px;
-    }
-
-    .btn-primary {
-        padding: 12px;
-        font-size: 0.95rem;
-    }
-
-    .register-link {
-        margin-top: 20px;
-        font-size: 0.9rem;
-    }
-    
-    .error-message {
-        margin-top: 10px;
     }
 }
