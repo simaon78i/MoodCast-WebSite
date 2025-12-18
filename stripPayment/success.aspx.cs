@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 
 public partial class success : System.Web.UI.Page
 {
+    string connectionString= ConfigurationManager.ConnectionStrings["MoodCastDb"].ConnectionString;
     protected void Page_Load(object sender, EventArgs e)
     {
         // 1. Get the Checkout Session ID that Stripe appended to the URL
@@ -37,22 +38,30 @@ public partial class success : System.Web.UI.Page
             return;
         }
 
-        // 4. Payment is confirmed; update session or database as needed
-        Session["PaymentOK"] = true;
-        Session["username"] = Session["forusername"];
-        Session["password"] = Session["forpassword"];
-        Session["email"] = Session["foremail"];
-
-
+        
         if (Session["email"] != null)
         {
             lblMessage.Text = string.Format("Thank you, "+Session["username"]+", for your payment!");
+            
         }
         else
         {
             lblMessage.Text = "Thank you! Your payment was successful.";
         }
 
+        using (var conn = new Npgsql.NpgsqlConnection(connectionString))
+        {
+            conn.Open();
+            string updateCounterQuery = "UPDATE users SET counter =@counter WHERE username = @username";
+            using (var cmd = new Npgsql.NpgsqlCommand(updateCounterQuery, conn))
+            {
+                cmd.Parameters.AddWithValue("@username", Session["username"].ToString());
+                cmd.Parameters.AddWithValue("@counter", -1);
+                cmd.ExecuteNonQuery();
+            }
+            Session["counter"] = -1;
+
+        }
         // Example: insert payment details into your database here
         // decimal amountPaid = (decimal)stripeSession["amount_total"] / 100m;
         // string email = Session["email"]?.ToString();

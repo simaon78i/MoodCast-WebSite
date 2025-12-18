@@ -22,8 +22,8 @@ public partial class stripe_checkout : Page
             client.Headers.Add(HttpRequestHeader.Authorization, "Bearer " + ConfigurationManager.AppSettings["stripeSecretKey"]);
 
             var values = new NameValueCollection();
-            values["success_url"] = "https://localhost:44308/stripPayment/success.aspx?session_id={CHECKOUT_SESSION_ID}";
-            values["cancel_url"] = "https://localhost:44308/stripPayment/cancel.aspx";
+            values["success_url"] = "https://www.MoodCastApp.somee.com/stripPayment/success.aspx?session_id={CHECKOUT_SESSION_ID}";
+            values["cancel_url"] = "https://www.MoodCastApp.somee.com/stripPayment/cancel.aspx";
             values["mode"] = "payment";
             values["payment_method_types[0]"] = "card";
             values["line_items[0][price_data][currency]"] = "usd";
