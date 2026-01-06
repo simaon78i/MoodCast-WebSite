@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="https://res.cloudinary.com/ddja5g5wa/image/upload/v1765979534/favicon-16x16_oyvtdb.png"/>
     <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/ddja5g5wa/image/upload/v1765979534/apple-touch-icon_qivl3g.png"/>
     <link rel="manifest" href="site.json"/>
+    <script src="script/animation.js"> </script>
 </head>
 <body>
     <div id="loading-overlay">
@@ -99,7 +100,6 @@
     .loading-subtitle { font-size: 1rem; color: #aaaaaa; font-style: italic; }
 </style>
 
-<script src="script/animation.js"> </script>
     <form id="form1" runat="server">
         <nav>
             <a >MoodCast</a>
@@ -134,4 +134,5 @@
     </footer>
 </body>
 </html>
+
 
