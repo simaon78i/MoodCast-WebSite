@@ -84,4 +84,5 @@ Powered by AI and fully deployed to a live production environment, it integrates
 
 ## 📜 License
 
-Released under the **MIT License**.
+Released under the [MIT LICENSE](LICENSE.md)
+
